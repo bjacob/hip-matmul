@@ -9,6 +9,8 @@ fi
 
 executable=build/hip-matmul
 
-hipcc matmul.hip -std=c++20 -Wall -Wextra -O3 -o "${executable}" -save-temps=obj
+# TODO: specify your own clang build. by default rocm uses clang-19 which is outdated.
+export HIP_CLANG_PATH=~/llvm/bin
+hipcc matmul.hip -target x86_64-unknown-linux-gnu -mllvm -amdgpu-waitcnt-forcezero -std=c++20 -Wall -Wextra -O3 -o "${executable}" -save-temps=obj
 
 "${executable}"
